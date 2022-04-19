@@ -1,0 +1,38 @@
+#!/bin/bash
+set -o pipefail
+command=$@
+
+if test $1 = "-h" ; then
+  echo "If you want to pipe things like this codesnip you have it to do it on this way!"
+  echo
+  echo "rerunner command1 | command2-piped-stuff-that-on-failure-repeat | command3-to-pipe-with-rerunner"
+  echo
+  echo "You have to use this syntax: rerunner command3 < <( rerunner command2 < <(rerunner command1))"
+  echo
+  exit 0
+fi 
+
+while [ true ] ; do
+
+ # echo "Try command: $command"
+ # $command
+ # result=$?
+ # echo $result
+  if $command ; then
+    paplay /usr/share/sounds/freedesktop/stereo/message-new-instant.oga  > /dev/null 2>&1 &
+    break
+  else
+    #echo "Retry command: $command"
+    echo
+  fi
+done
+### Finished rerunner with info text and sound!
+
+echo
+echo "Command is finished with succeed!"
+echo ""
+echo "Don't forget, this not means that you have set the command with the correct parameters!"
+echo
+
+exit 0
+
